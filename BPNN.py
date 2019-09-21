@@ -3,11 +3,11 @@
 from sklearn.datasets import load_digits  # 数据集
 from sklearn.preprocessing import LabelBinarizer  # 标签二值化
 from sklearn.model_selection import train_test_split  # 数据集分割
-import numpy as np
+from numpy import *
 import matplotlib.pyplot as pl #数据可视化
 
 def sigmoid(x):  # 激活函数
-    sig=1/(1 + np.exp(-x))
+    sig=1/(1 + exp(-x))
     return sig
 def dsigmoid(x):  # sigmoid的导数
     return x * (1 - x)
@@ -18,27 +18,27 @@ def data_split(X,y): # 将数据划分为训练集和测试集
 class NeuralNetwork:
     def __init__(self, layers):  # 这里是三层网络，列表[64,100,10]表示输入，隐藏，输出层的单元个数
         # 初始化权值，范围1~-1
-        self.V = np.random.random((layers[0] + 1, layers[1])) * 2 - 1  # 输入层至隐藏层权值(65,100)，之所以是65，因为有偏置W0
-        self.W = np.random.random((layers[1], layers[2])) * 2 - 1  # 隐藏层至输出层权值(100,10)
+        self.V = random.random((layers[0] + 1, layers[1])) * 2 - 1  # 输入层至隐藏层权值(65,100)，之所以是65，因为有偏置W0
+        self.W = random.random((layers[1], layers[2])) * 2 - 1  # 隐藏层至输出层权值(100,10)
 
     def train(self, X_train, lables_train, X_test, y_test, lr=0.1, epochs=20000):
         # lr为学习率，epochs为迭代的次数
         #  lables_train为训练集y_train归一化后的矩阵
 
         # 为数据集添加偏置
-        temp = np.ones([X_train.shape[0], X_train.shape[1] + 1])
+        temp = ones([X_train.shape[0], X_train.shape[1] + 1])
         temp[:, 0:-1] = X_train # -1为导数为倒数第一个
         X_train = temp  # 这里最后一列为偏置
 
         # 进行权值训练更新
         for n in range(epochs + 1):
-            i = np.random.randint(0,X_train.shape[0])  # 随机选取一行数据(一个样本)进行更新
+            i = random.randint(0,X_train.shape[0])  # 随机选取一行数据(一个样本)进行更新
             x = X_train[i]
-            x = np.atleast_2d(x)  # 转为二维数据 x=1*65 X=1797*65
+            x = atleast_2d(x)  # 转为二维数据 x=1*65 X=1797*65
 
             L1 = x  # 输入层数据输入 L1=1*65
-            L2 = sigmoid(np.dot(L1, self.V))  # 隐层输出(1,100)
-            L3 = sigmoid(np.dot(L2, self.W))  # 输出层输出(1,10)
+            L2 = sigmoid(L1.dot(self.V))  # 隐层输出(1,100)
+            L3 = sigmoid(L2.dot(self.W))  # 输出层输出(1,10)
 
             # 误差delta
             L3_delta = lables_train[i] - L3 # (1,10)
@@ -54,20 +54,20 @@ class NeuralNetwork:
                 predictions = []
                 for j in range(X_test.shape[0]):
                     out = self.predict(X_test[j])  # 用验证集去测试
-                    predictions.append(np.argmax(out))  # 返回预测结果,argmax()返回最大值索引
-                accuracy = np.mean(np.equal(predictions, y_test))  # 求平均值
+                    predictions.append(argmax(out))  # 返回预测结果,argmax()返回最大值索引
+                accuracy = mean(equal(predictions, y_test))  # 求平均值
                 print('epoch:', n, 'accuracy:', accuracy)
 
     def predict(self, x):
         # 添加转置,这里是一维的
-        temp = np.ones(x.shape[0] + 1)
+        temp = ones(x.shape[0] + 1)
         temp[0:-1] = x
         x = temp
-        x = np.atleast_2d(x) # 转为二维数据
+        x = atleast_2d(x) # 转为二维数据
 
         L1 = x
-        L2 = sigmoid(np.dot(L1, self.V))  # 隐层输出
-        L3 = sigmoid(np.dot(L2, self.W))  # 输出层输出
+        L2 = sigmoid(dot(L1, self.V))  # 隐层输出
+        L3 = sigmoid(dot(L2, self.W))  # 输出层输出
         return L3
 
 digits = load_digits()  # 载入数据
