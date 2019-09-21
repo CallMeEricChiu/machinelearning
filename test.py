@@ -6,12 +6,12 @@ from sklearn.model_selection import train_test_split  # 数据集分割
 import numpy as np
 
 
+if __name__ == '__main__':
+    a = np.array([[1,2],[3,4],[5,6]])
+    print(a)
 
-a = np.array([[1,2],[3,4],[5,6]])
-print(a)
-
-b = np.sum(a[0][0])
-print(b)
+    b = np.sum(a[0][0])
+    print(b)
 
 
 
