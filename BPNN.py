@@ -23,7 +23,7 @@ class NeuralNetwork:
 
     def train(self, X_train, lables_train, X_test, y_test, lr=0.1, epochs=20000):
         # lr为学习率，epochs为迭代的次数
-        #  lables_train为训练集y_train归一化后的矩阵
+        # lables_train为训练集y_train归一化后的矩阵
 
         # 为数据集添加偏置
         temp = ones([X_train.shape[0], X_train.shape[1] + 1])
@@ -42,7 +42,7 @@ class NeuralNetwork:
 
             # 误差delta
             L3_delta = lables_train[i] - L3 # (1,10)
-            L2_delta = L3_delta.dot(self.W.T) * dsigmoid(L2)  # (1,100)
+            L2_delta = L3_delta.dot(self.W.T) * dsigmoid(L2)   # (1,100)
             # L1是输入层不存在误差
 
             # 更新
