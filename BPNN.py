@@ -94,3 +94,4 @@ if __name__ == '__main__':
     labels_test = LabelBinarizer().fit_transform(y_test)
 
     BPNN.train(X_train, labels_train, X_test, y_test)
+123
