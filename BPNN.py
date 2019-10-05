@@ -70,26 +70,27 @@ class NeuralNetwork:
         L3 = sigmoid(dot(L2, self.W))  # 输出层输出
         return L3
 
-digits = load_digits()  # 载入数据
-print(digits.data.shape)  # 打印数据集大小(1797L, 64L）
-# pl.gray()  # 灰度化图片
-# pl.matshow(digits.images[3])  # 显示第1张图片，上面的数字是0
-# pl.show()
-X = digits.data
-y = digits.target
+if __name__ == '__main__':
+    digits = load_digits()  # 载入数据
+    print(digits.data.shape)  # 打印数据集大小(1797L, 64L）
+    # pl.gray()  # 灰度化图片
+    # pl.matshow(digits.images[3])  # 显示第1张图片，上面的数字是0
+    # pl.show()
+    X = digits.data
+    y = digits.target
 
-# 数据归一化,一般是x=(x-x.min)/x.max-x.min
-X1 = X - X.min()
-X2 = X.max() - X.min()
-X = X1/X2
-# 创建神经网络
-BPNN = NeuralNetwork([64,100,10])
+    # 数据归一化,一般是x=(x-x.min)/x.max-x.min
+    X1 = X - X.min()
+    X2 = X.max() - X.min()
+    X = X1/X2
+    # 创建神经网络
+    BPNN = NeuralNetwork([64,100,10])
 
-# 创建训练集、测试集
-X_train, X_test, y_train, y_test = train_test_split(X , y)
+    # 创建训练集、测试集
+    X_train, X_test, y_train, y_test = train_test_split(X , y)
 
-#标签二值化
-labels_train = LabelBinarizer().fit_transform(y_train)
-labels_test = LabelBinarizer().fit_transform(y_test)
+    #标签二值化
+    labels_train = LabelBinarizer().fit_transform(y_train)
+    labels_test = LabelBinarizer().fit_transform(y_test)
 
-BPNN.train(X_train, labels_train, X_test, y_test)
+    BPNN.train(X_train, labels_train, X_test, y_test)
